@@ -1,13 +1,14 @@
 import sharp from 'sharp';
-const sizes = [16, 32, 48, 128];
 
-async function convertToPng() {
+const sizes = [16, 48, 128];
+
+async function generateIcons() {
   for (const size of sizes) {
-    await sharp('public/icons/icon.svg')
+    await sharp('public/icon.svg')
       .resize(size, size)
       .png()
-      .toFile(`public/icons/icon-${size}.png`);
+      .toFile(`public/icon${size}.png`);
   }
 }
 
-convertToPng().catch(console.error); 
+generateIcons().catch(console.error); 
