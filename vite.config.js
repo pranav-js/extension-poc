@@ -1,21 +1,19 @@
 import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
 import { crx } from '@crxjs/vite-plugin';
-import manifest from './src/manifest.json';
-import { resolve } from 'path';
+import fs from 'fs';
+
+const manifest = JSON.parse(fs.readFileSync('./src/manifest.json', 'utf8'));
 
 export default defineConfig({
-  plugins: [crx({ manifest })],
+  plugins: [vue(), crx({ manifest })],
   build: {
-    rollupOptions: {
-      input: {
-        content: resolve(__dirname, 'src/content.js'),
-        background: resolve(__dirname, 'src/background.js')
-      },
-      output: {
-        entryFileNames: '[name].js',
-        chunkFileNames: '[name].[hash].js',
-        assetFileNames: '[name].[ext]'
-      }
-    }
+    outDir: 'dist',
+    emptyOutDir: true,
+    sourcemap: true
+  },
+  css: {
+    modules: false,
+    postcss: false
   }
 }); 
